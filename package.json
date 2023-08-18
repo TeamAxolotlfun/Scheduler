@@ -1,0 +1,22 @@
+{
+  "name": "scratchproject",
+  "version": "1.0.0",
+  "description": "HIIIII",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.5",
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.1",
+    "cookieparser": "^0.1.0",
+    "react": "^18.2.0",
+    "webpack": "^5.88.2"
+  }
+}
