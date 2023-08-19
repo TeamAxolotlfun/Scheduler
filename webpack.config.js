@@ -10,15 +10,13 @@ module.exports = {
         publicPath: '/',
         filename: 'bundle.js',
       }, 
-    mode: 'development',
+    mode: 'production',
     module: {
         rules: [
           {
             test: /.(js|jsx)$/,
             exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-            },
+            loader: 'babel-loader',
             options: {
                 presets:  ['@babel/preset-env', '@babel/preset-react']
                 //plugins: ['@babel/plugin-transform-runtime', '@babel/transform-async-to-generator'],
