@@ -25,7 +25,7 @@ userController.createUser = async (req, res, next) => {
     const insertValues = [req.body.username, hashingPassword];
     // Execute the SQL query to insert the user
     const createUser = await db.query(insertQuery, insertValues);
-    console.log(createUser.rows)
+    console.log(createUser.rows);
     res.locals.userId = createUser.rows[0].user_id;
     console.log('Successful saved userID', res.locals.userId);
     // Send a successful response
