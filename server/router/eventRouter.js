@@ -10,6 +10,9 @@ const path = require('path');
 //     return sendStatus(200);
 // })
 
-
+app.get('/user-invited-events', eventController.getEventsForUser, (req, res) => {
+    const events = res.locals.events;
+    res.json(events);
+  });
 
 module.exports = router;

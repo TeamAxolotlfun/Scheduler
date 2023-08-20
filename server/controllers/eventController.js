@@ -44,15 +44,57 @@ for(let i = 0; i < userIDs.length; i ++){
 };
 //home page
 // After you log in to the platform, you would receive an invitation + need time + dates for that event
-eventController.getEvent = (req, res, next) => {
+eventController.getEvent = async (req, res, next) => {
   try {
   } catch (err) {
     return next(err);
   }
 };
 
-eventController.getInvitations = (req, res, next) => {
+eventController.getAllUsernames = async (req, res, next) => {
   try {
+    const getAllUsernamesQuery = 'SELECT username FROM "user"';
+    const usernamesResult = await db.query(getAllUsernamesQuery);
+    const usernames = usernamesResult.rows.map(row => row.username);
+    res.json(usernames);
+    next(); 
+  } catch (err) {
+    return next(err);
+  }
+}
+
+
+eventController.getEventsForUser = async (req, res, next) => {
+  try {
+    // find who is the user from the cookie
+    const userId = req.cookies.userId;
+    const getInvitedEventsQuery = `
+      SELECT events.*
+      FROM events
+      INNER JOIN invitation ON events.event_id = invitation.event
+      WHERE invitation.user = $1;
+    `;
+    const events = await db.query(getInvitedEventsQuery, [userId]);
+
+    res.locals.events = events.rows;
+    next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+eventController.getEventsForOrganizer = async (req, res, next) => {
+  try {
+    // find who is the user from the cookie
+    const userId = req.cookies.userId;
+    const getEventsQuery = `
+      SELECT *
+      FROM events
+      WHERE organizer_id = $1;
+    `;
+    const events = await db.query(getEventsQuery, [userId]);
+    res.locals.eventsFromOrganizer = events.rows;
+    next();
   } catch (err) {
     return next(err);
   }
