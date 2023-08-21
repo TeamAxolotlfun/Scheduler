@@ -24,7 +24,7 @@ const TimeSelector = (props) => {
 
 
    return (
-    <Container>
+    <Container maxWidth="md">
       <LocalizationProvider dateAdapter={AdapterDateFns} >
         <DesktopDateTimePicker 
         label = 'enter a start time' minDateTime = {start} maxDateTime = {end} onChange = {(newDate) => setStart(newDate)}
@@ -33,7 +33,7 @@ const TimeSelector = (props) => {
           label = 'enter an end time' minDateTime = {start} maxDateTime = {end} onChange = {(newDate) => setEnd(newDate)} 
         />
       </LocalizationProvider>
-      <Button onClick = {handleClick}>Set Availability</Button>
+      <Button marginTop={3} onClick = {handleClick}>Confirm</Button>
     </Container>
    );
 }

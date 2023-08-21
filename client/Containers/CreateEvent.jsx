@@ -26,7 +26,7 @@ export default function CreateEvent() {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [usernames, setUsernames] = useState(['John', 'Mary', 'Bill', 'Sue']);
     const [selectors, setSelectors] = useState([<TimeSelector av = {availableTimes} set = {setAvailableTimes}/>]);
-    console.log(invitee);
+    //console.log(invitee);
     // const handleAddDateTime = () => {
     //     setSelectedDates([...selectedDates, { start: new Date(), end: new Date() }]);
     // };
@@ -34,7 +34,7 @@ export default function CreateEvent() {
     useEffect(() => {
         const fetchUsernames = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/getUsernames');
+                const response = await axios.get('http://localhost:3000/event/getAllUsernames');
                 setUsernames(response.data);
             } catch (error) {
                 console.error("Error fetching usernames:", error);
@@ -56,29 +56,29 @@ export default function CreateEvent() {
     const CreateEvent = async() => {
         //for when backend is set up
       
-        // try{
-        //   const result = await axios.post('http://localhost:3000/createevent', {
-        //     event_name: eventName,
-        //     location: eventLocation,
-        //     details: eventDetails,
-        //     times: availableTimes,
-        //     users: invitee,
-        //   });
-        //   if(result){
-        //     navigate('/home');
-        //   }
-        // }
-        // catch(err){
-        //   console.log(err);
-        // }
+        try{
+          const result = await axios.post('http://localhost:3000/event/create-new-event', {
+            event_name: eventName,
+            locations: eventLocation,
+            details: eventDetails,
+            times: availableTimes,
+            usernames: invitee,
+          });
+          if(result){
+            navigate('/');
+          }
+        }
+        catch(err){
+          console.log(err);
+        }
 
-        console.log({
-              event_name: eventName,
-              location: eventLocation,
-              details: eventDetails,
-              times: availableTimes,
-              users: invitee,
-            })
+        // console.log({
+        //       event_name: eventName,
+        //       location: eventLocation,
+        //       details: eventDetails,
+        //       times: availableTimes,
+        //       users: invitee,
+        //     })
       }
  
     const handleClick = (event) => {
@@ -101,7 +101,7 @@ export default function CreateEvent() {
     }
       
     return (
-        <Container maxWidth="sm" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
+        <Container maxWidth="md" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
             <Typography variant="h4" gutterBottom>
                 Create Event
             </Typography>
@@ -110,9 +110,9 @@ export default function CreateEvent() {
             <TextField fullWidth label="Event Summary" margin="normal" multiline rows={4} onChange={(e) => {setEventDetails(e.target.value)}}/>
 
             {selectors}
-            <IconButton onClick={handleAddDateTime}>
-                            <AddIcon />
-            </IconButton>
+            <Button onClick={handleAddDateTime}>
+                           Add another availability window
+            </Button>
 
             {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                 {selectedDates.map((date, idx) => (
