@@ -2,10 +2,12 @@ const db = require('../models/model');
 
 const eventController = {};
 
-// const times = [{start: new Date('August 20, 2023 06:30:00'), end: new Date('August 22, 2023 18:30:00')}, {start: new Date('August 23, 2023 06:30:00'), end: new Date('August 25, 2023 18:30:00')}];
+const times = [{start: new Date('August 20, 2023 06:30:00'), end: new Date('August 22, 2023 18:30:00')}, {start: new Date('August 23, 2023 06:30:00'), end: new Date('August 25, 2023 18:30:00')}];
+// 2012-06-22 05:40:06
+console.log(times);
 eventController.createEvent = async (req, res, next) => {
   try {
-    const { usernames, locations, eventDetails, times } = req.body;
+    const { usernames, locations, event_name, details, times } = req.body;
     const userIDs = [];
     let userID = '';
     //getting all the userID associate with the username in the user table
@@ -16,19 +18,29 @@ eventController.createEvent = async (req, res, next) => {
     }
     //insert to events table with cookieID username, and event location
     const insertEventQuery =
-      'INSERT INTO "events" (organizer_id, locations) VALUES($1, $2) RETURNING *';
-    const eventValue = [req.cookies, locations];
-    const createEvent = await db.query(insertEventQuery, eventValue);
-//get the event ID from event table?
-const eventID = createEvent.rows[0];
+      'INSERT INTO "events" (organizer_id, location, event_name, details) VALUES($1, $2, $3, $4) RETURNING *';
+    const eventValue = [req.cookies.userId, locations, event_name, details];
+    const createEvents = await db.query(insertEventQuery, eventValue);
+    //get the event ID from event table?
+    const eventID = createEvents.rows[0].event_id;
 
     //insert userID with the same event ID to the invitation table
-const insertInvitation = 'INSERT INTO "invitation" (user, event) VALUES($1, $2)';
-let invitationValues = '';
-for(let i = 0; i < userIDs.length; i ++){
-    invitationValues = [userIDs[i], eventID];
-    const createInvitation = await db.query(insertInvitation, invitationValues);
-}
+    const insertInvitation = 'INSERT INTO "invitation" (user, event) VALUES($1, $2)';
+    let invitationValues = [];
+    for(let i = 0; i < userIDs.length; i ++){
+      invitationValues = [userIDs[i], eventID];
+      const createInvitation = await db.query(insertInvitation, invitationValues);
+    }
+    const eventOrgAvailability = 'INSERT INTO "user_availability" (user, event, available_start_time, available_end_time) VALUES($1,$2,$3,$4)'
+    let eventOrgValues = [];
+
+    for(let x = 0; x < times.length; x++){
+      let startTime = times[x].start.toISOString().slice(0, 19).replace('T', ' ')
+      let endTime = times[x].end.toISOString().slice(0, 19).replace('T', ' ')
+      eventOrgValues = [req.cookies.userId, eventID, startTime, endTime];
+      const addEventOrgAvailability = await db.query(eventOrgAvailability, eventOrgValues);
+    }
+
     // const createEventQuery = 'SELECT * FROM "user" WHERE username = $1';
     //pass in usernames in an array [], event details in object {},
     //find all the userid associated with the usernames add to invitation table
@@ -44,19 +56,21 @@ for(let i = 0; i < userIDs.length; i ++){
 };
 //home page
 // After you log in to the platform, you would receive an invitation + need time + dates for that event
-eventController.getEvent = async (req, res, next) => {
-  try {
-  } catch (err) {
-    return next(err);
-  }
-};
+// eventController.getEvent = async (req, res, next) => {
+//   try {
+//   } catch (err) {
+//     return next(err);
+//   }
+// };
 
 eventController.getAllUsernames = async (req, res, next) => {
   try {
     const getAllUsernamesQuery = 'SELECT username FROM "user"';
     const usernamesResult = await db.query(getAllUsernamesQuery);
-    const usernames = usernamesResult.rows.map(row => row.username);
-    res.json(usernames);
+    const usernames = usernamesResult.rows.map(row => {
+      if(req.cookies.userId != row.username) row.username
+    });
+    res.locals.usernames = usernames;
     next(); 
   } catch (err) {
     return next(err);
