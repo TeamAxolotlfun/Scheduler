@@ -10,16 +10,20 @@ const TimeSelectorPage = (props) => {
   console.log('props', props);
   const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
-  const timeSelectors = [];
+  const [timeSelectors,setTimeSelectors] = useState([]);
     const getEventTimes = async () => {
       console.log('in get event times');
        try{
         console.log(event_id);
-        const response = axios.get(`http://localhost:3000/event/gettingInvitationTimes/?event=${event_id}`);
-        console.log(response);
+        const response = await axios.get(`http://localhost:3000/event/gettingInvitationTimes/?event=${event_id}`);
+        //console.log(response);
+        const times = response.data;
+        const temp = [];
         for (let time of times){
-          timeSelectors.push(<TimeSelector av = {availableTimes} set = {setAvailableTimes} timeConstraints = {time}/>)
+          temp.push(<TimeSelector av = {availableTimes} set = {setAvailableTimes} timeConstraints = {time}/>)
         }
+        setTimeSelectors(temp);
+        console.log(timeSlectors);
        }
        catch (err){
         console.log(err);
@@ -30,7 +34,7 @@ const TimeSelectorPage = (props) => {
   
     
 
-    const handleClick = async () => {
+    const handleTSClick = async () => {
       try{
         const result = await axios.post(`http://localhost:3000/event/inviteeChooseEventTime`, {
           event_id: event_id,
@@ -55,7 +59,7 @@ const TimeSelectorPage = (props) => {
             Select Your Availability
         </Typography>
         {timeSelectors}
-        <Button onClick={handleClick}>Submit</Button>
+        {<Button onClick={handleTSClick}>Submit</Button>}
       </Container>
     )
 }
