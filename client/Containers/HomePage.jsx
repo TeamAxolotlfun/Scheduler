@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Container, Divider, Notification } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import axios from 'axios';
+
 export default function HomePage (props) {
     const {set} = props;
     const navigate = useNavigate();
@@ -17,8 +19,10 @@ export default function HomePage (props) {
         const fetchEvents = async () => {
             try{
                 const response = await axios.get('http://localhost:3000/event/user-invited-events');
+                console.log(response.data);
                 setPEvents(response.data);
                 const response2 = await axios.get('http://localhost:3000/event/organizer-invited-events')
+                console.log(response2.data);
                 setHEvents(response2.data);
             }
             catch(err){
@@ -54,8 +58,8 @@ export default function HomePage (props) {
                     <Typography variant="h5" marginBottom="1rem">Hosting</Typography>
                     {/* Render the hosted events */}
                     {hEvents.map(event => (
-                        <Box key={event.id}>
-                            {event.name}
+                        <Box key={event.event_id}>
+                           {event.event_name}
                         </Box>
                     ))}
                 </Box>
@@ -65,8 +69,8 @@ export default function HomePage (props) {
                     {/* Render the participating events */}
                     {pEvents.map(event => (
                       <Container>
-                        <Box key={event.id}>
-                            {event.name}
+                        <Box key={event.event_id}>
+                            {event.event_name}
                         </Box>
                         <Button onClick = {() => {
                           set(event);

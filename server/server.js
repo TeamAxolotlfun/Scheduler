@@ -15,16 +15,18 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use('/', express.static(path.resolve(__dirname, '../dist'))); //dist has all the static file
+
+app.use('/user', (req, res, next) => {console.log('going to user router'); next();}, userRouter); 
+app.use('/event', eventRouter); 
+app.use('/', (req, res, next) => {console.log(path.resolve(__dirname, '../dist')); next();}, express.static(path.resolve(__dirname, '../dist'))); //dist has all the static file
 
 /**
  * define route handlers
  */
-app.use('/user', userRouter); 
-app.use('/event', eventRouter); 
+
 
 // catch-all route handler for any requests to an unknown route
-app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+//app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 
 /**
  * express error handler

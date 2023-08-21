@@ -43,7 +43,8 @@ const LogIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    login(data.get('username'. data.get('password')));
+    //console.log(data);
+    login(data.get('username'), data.get('password'));
    }
 
   return (

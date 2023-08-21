@@ -10,8 +10,10 @@ const eventController = require('../controllers/eventController');
 // router.post('createEvent', cookieController.checkCookie, eventController.createEvent, (req, res)=>{
 //     return sendStatus(200);
 // })
-router.get('/create-new-event', express.static(path.resolve(__dirname, '../dist')));
-router.get('/select-times', express.static(path.resolve(__dirname, '../dist')));
+//router.get('/create-new-event', express.static(path.resolve(__dirname, '../dist'), {fallthrough: false, redirect: false}));
+//router.get('/select-times', express.static(path.resolve(__dirname, '../dist'), {fallthrough: false, redirect: false}));
+router.use('/create-new-event', express.static(path.resolve(__dirname, '../../dist')));
+router.use('/select-times', express.static(path.resolve(__dirname, '../../dist')));
 
 router.post('/create-new-event', eventController.createEvent, (req, res) => {
   return res.sendStatus(200);

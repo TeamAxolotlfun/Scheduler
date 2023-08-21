@@ -26,6 +26,8 @@ export default function CreateEvent() {
     const [availableTimes, setAvailableTimes] = useState([]);
     const [usernames, setUsernames] = useState(['John', 'Mary', 'Bill', 'Sue']);
     const [selectors, setSelectors] = useState([<TimeSelector av = {availableTimes} set = {setAvailableTimes}/>]);
+    
+    const navigate = useNavigate();
     //console.log(invitee);
     // const handleAddDateTime = () => {
     //     setSelectedDates([...selectedDates, { start: new Date(), end: new Date() }]);
@@ -53,7 +55,7 @@ export default function CreateEvent() {
         setSelectors(copy);
     };
 
-    const CreateEvent = async() => {
+    const createTheEvent = async () => {
         //for when backend is set up
       
         try{
@@ -82,7 +84,7 @@ export default function CreateEvent() {
       }
  
     const handleClick = (event) => {
-      CreateEvent();
+      createTheEvent();
     }
 
     // const handleSubmit = (event) => {

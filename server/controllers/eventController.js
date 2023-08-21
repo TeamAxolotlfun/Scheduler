@@ -143,6 +143,7 @@ eventController.getEventsForOrganizer = async (req, res, next) => {
 eventController.getTimesForEvent = async (req, res, next) => {
   try {
     //needs to be req.query.event
+    console.log(req.query, req.query.event);
     const event_id  = req.query.event;
     const getOrganizer = 'SELECT * from "events" WHERE "event_id" = $1;';
     const gettingOrganizerId = await db.query(getOrganizer, [event_id]);
