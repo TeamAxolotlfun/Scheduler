@@ -1,5 +1,5 @@
 const express = require('express');
-// const userController = require('../controllers/eventController');
+// const userController = require('../controllers/userController');
 const cookieController = require('../controllers/cookieController');
 const router = express.Router();
 const path = require('path');
