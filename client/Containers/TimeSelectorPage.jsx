@@ -16,8 +16,7 @@ const TimeSelectorPage = (props) => {
        try{
         console.log(event_id);
         const response = axios.get(`http://localhost:3000/event/gettingInvitationTimes/?event=${event_id}`);
-        const times = response.data;
-        console.log('you got back', times); 
+        console.log(response);
         for (let time of times){
           timeSelectors.push(<TimeSelector av = {availableTimes} set = {setAvailableTimes} timeConstraints = {time}/>)
         }
