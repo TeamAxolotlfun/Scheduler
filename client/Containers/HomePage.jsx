@@ -2,31 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Container, Divider, Notification } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function HomePage() {
+export default function HomePage (props) {
+    const {set} = props;
     const navigate = useNavigate();
     const [hasNewInvite, setHasNewInvite] = useState(false); // Mocking it for now
-    const hostedEvents = []; // Fetch these from your API
-    const participatingEvents = []; // Fetch these from your API
+    const [pEvents, setPEvents] = useState([]);
+    const [hEvents, setHEvents] = useState([]);
+    // const hostedEvents = []; 
+    // const participatingEvents = []; 
 
     useEffect(() => {
         // Check if the user has a new invite and set 'hasNewInvite'
-        // setHasNewInvite(true or false based on the API call)
+        // setHasNewInvite(true or false)
+        const fetchEvents = async () => {
+            try{
+                const response = await axios.get('http://localhost:3000/event/user-invited-events');
+                setPEvents(response.data);
+                const response2 = await axios.get('http://localhost:3000/event/organizer-invited-events')
+                setHEvents(response2.data);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        fetchEvents();
+        //setPEvents([{id: 1, name: 'first event'}, {id: 2, name: 'second event'}]);
     }, []);
 
     return (
         <Container maxWidth="lg" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px' }}>
             
-            {hasNewInvite && (
+            {/* {hasNewInvite && (
                 <Notification 
                     message="You have been invited to attend an event." 
                     onClose={() => setHasNewInvite(false)} 
                     onClick={() => navigate('/selecttimes')} 
                 />
-            )}
+            )} */}
 
             <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="2rem">
                 <Typography variant="h4">Home</Typography>
-                <Button variant="contained" color="primary" onClick={() => navigate('/createevent')}>
+                <Button variant="contained" color="primary" onClick={() => navigate('/event/create-new-event')}>
                     + Create new event
                 </Button>
             </Box>
@@ -37,7 +53,7 @@ export default function HomePage() {
                 <Box flex="1" marginRight="1rem">
                     <Typography variant="h5" marginBottom="1rem">Hosting</Typography>
                     {/* Render the hosted events */}
-                    {hostedEvents.map(event => (
+                    {hEvents.map(event => (
                         <Box key={event.id}>
                             {event.name}
                         </Box>
@@ -47,10 +63,18 @@ export default function HomePage() {
                 <Box flex="1">
                     <Typography variant="h5" marginBottom="1rem">Participating</Typography>
                     {/* Render the participating events */}
-                    {participatingEvents.map(event => (
+                    {pEvents.map(event => (
+                      <Container>
                         <Box key={event.id}>
                             {event.name}
                         </Box>
+                        <Button onClick = {() => {
+                          set(event);
+                          navigate('/event/select-times');
+                          }}>
+                            Set your availability
+                          </Button>
+                      </Container>
                     ))}
                 </Box>
             </Box>

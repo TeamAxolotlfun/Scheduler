@@ -33,7 +33,7 @@ const LogIn = () => {
         password: pass,
       });
       if(result){
-        navigate('/home');
+        navigate('/');
       }
    }
    catch(err){

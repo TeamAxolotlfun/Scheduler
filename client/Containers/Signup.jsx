@@ -23,7 +23,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const signup = async(uname, pass, first, last) => {
     try{
-      const result = await axios.post('http://localhost:3000/user/login', {
+      const result = await axios.post('http://localhost:3000/user/signup', {
         username: uname,
         password: pass,
         first: first,
