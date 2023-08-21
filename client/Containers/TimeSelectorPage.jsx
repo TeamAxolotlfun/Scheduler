@@ -10,7 +10,7 @@ const TimeSelectorPage = (props) => {
   console.log('props', props);
   const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [timeSelectors,setTimeSelectors] = useState([]);
+  const [timeSelectors, setTimeSelectors] = useState([]);
     const getEventTimes = async () => {
       console.log('in get event times');
        try{
@@ -23,25 +23,27 @@ const TimeSelectorPage = (props) => {
           temp.push(<TimeSelector av = {availableTimes} set = {setAvailableTimes} timeConstraints = {time}/>)
         }
         setTimeSelectors(temp);
-        console.log(timeSlectors);
+        //console.log(timeSelectors);
        }
        catch (err){
         console.log(err);
        }
     }
-    getEventTimes();
+    useEffect(() => getEventTimes(), []);
   //   const times = [{start: new Date('August 20, 2023 06:30:00'), end: new Date('August 22, 2023 18:30:00')}, {start: new Date('August 23, 2023 06:30:00'), end: new Date('August 25, 2023 18:30:00')}]; //dummy code for testing front end
   
     
-
-    const handleTSClick = async () => {
+    const handleTSClick = () => {
+      sendData();
+    }
+    const sendData = async () => {
       try{
         const result = await axios.post(`http://localhost:3000/event/inviteeChooseEventTime`, {
           event_id: event_id,
           times: availableTimes,
         });
         if(result){
-          navigate('/')
+          return navigate('/');
         }
       }
       catch(err){
@@ -59,7 +61,8 @@ const TimeSelectorPage = (props) => {
             Select Your Availability
         </Typography>
         {timeSelectors}
-        {<Button onClick={handleTSClick}>Submit</Button>}
+        <Button onClick={handleTSClick}>Submit</Button>
+        <Button>extra</Button>
       </Container>
     )
 }

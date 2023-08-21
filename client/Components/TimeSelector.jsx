@@ -12,8 +12,8 @@ const TimeSelector = (props) => {
   const {av, set} = props;
   let start, end;
   if (props && props.timeConstraints){ 
-    start = props.timeConstraints.start;
-    end = props.timeConstraints.end;
+    start = new Date(props.timeConstraints.start);
+    end = new Date(props.timeConstraints.end);
   }
 
   const handleClick = (event) => {

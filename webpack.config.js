@@ -29,6 +29,9 @@ module.exports = {
           }
         ],
       },
+      optimization: {
+        minimize: false, 
+     },
       devServer: {
         host: 'localhost',
         port: 8080,
