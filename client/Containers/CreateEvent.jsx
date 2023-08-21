@@ -30,7 +30,7 @@ export default function CreateEvent() {
             <TextField fullWidth label="Event Location" margin="normal" />
             <TextField fullWidth label="Event Summary" margin="normal" multiline rows={4} />
 
-            <TimeSelector timeContraints = {{start: null, end: null}}/>
+            {<TimeSelector/>}
 
             {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                 {selectedDates.map((date, idx) => (

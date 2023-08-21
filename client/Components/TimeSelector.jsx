@@ -6,7 +6,14 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import de from 'date-fns/locale/de';
 
 const TimeSelector = (props) => {
-  const {start, end} = props.timeConstraints;
+
+  console.log('your props are', props);
+  let start, end;
+  if (props && Object.entries(props).length){
+    console.log('found real props');
+    start = props.timeConstraints.start;
+    end = props.timeConstraints.end;
+  }
   console.log(start);
   console.log(end);
    return (

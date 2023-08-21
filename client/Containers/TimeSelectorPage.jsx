@@ -5,7 +5,7 @@ import axios from 'axios';
 const TimeSelectorPage = (event_id) => {
     const getEventTimes = async () => {
        try{
-        const response = axiso.get(`http://localhost:3000/event_times/?event=${event_id}`);
+        const response = axios.get(`http://localhost:3000/event_times/?event=${event_id}`);
         const times = response.data; 
         return times;
        }
