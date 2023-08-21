@@ -1,7 +1,9 @@
 import React from 'react';
 import {createBrowserRouter, RouterProvider, } from "react-router-dom";
 import LogIn from './Containers/Login.jsx';
-import SignUp from './Containers/Signup.jsx'
+import SignUp from './Containers/Signup.jsx';
+import TimeSelectorPage from './Containers/TimeSelectorPage.jsx';
+import CreateEvent from './Containers/CreateEvent.jsx';
 
 const router = createBrowserRouter([
    {
@@ -16,14 +18,14 @@ const router = createBrowserRouter([
     path: '/user/signup',
     element: <SignUp/>,
   },
-//   {
-//     path: '/createevent',
-//     element: <CreateEvent/>,
-//   },
-//   {
-//     path: '/selecttimes',
-//     element: <TimeSelector/>
-//   }
+  {
+    path: '/createevent',
+    element: <CreateEvent/>,
+  },
+  {
+    path: '/selecttimes',
+    element: <TimeSelectorPage/>
+  }
 
 ]);
 
