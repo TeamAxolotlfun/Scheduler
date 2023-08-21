@@ -16,15 +16,17 @@ export default function HomePage (props) {
         // setHasNewInvite(true or false)
         const fetchEvents = async () => {
             try{
-                const response = await axios.get('http://localhost:3000/userinfo');
+                const response = await axios.get('http://localhost:3000/event/user-invited-events');
                 setPEvents(response.data);
+                const response2 = await axios.get('http://localhost:3000/event/organizer-invited-events')
+                setHEvents(response2.data);
             }
             catch(err){
                 console.log(err);
             }
         }
         fetchEvents();
-        setPEvents([{id: 1, name: 'first event'}, {id: 2, name: 'second event'}]);
+        //setPEvents([{id: 1, name: 'first event'}, {id: 2, name: 'second event'}]);
     }, []);
 
     return (
@@ -40,7 +42,7 @@ export default function HomePage (props) {
 
             <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="2rem">
                 <Typography variant="h4">Home</Typography>
-                <Button variant="contained" color="primary" onClick={() => navigate('/createevent')}>
+                <Button variant="contained" color="primary" onClick={() => navigate('/event/create-new-event')}>
                     + Create new event
                 </Button>
             </Box>
@@ -68,7 +70,7 @@ export default function HomePage (props) {
                         </Box>
                         <Button onClick = {() => {
                           set(event);
-                          navigate('/selecttimes');
+                          navigate('/event/select-times');
                           }}>
                             Set your availability
                           </Button>

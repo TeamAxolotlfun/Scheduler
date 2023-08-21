@@ -12,7 +12,7 @@ const App = () => {
   const [ev, setEvent] = useState({});
   const router = createBrowserRouter([
     {
-      path: '/home',
+      path: '/',
       element: <HomePage set = {setEvent}/>,
     },
    {
@@ -24,11 +24,11 @@ const App = () => {
      element: <SignUp/>,
    },
    {
-     path: '/createevent',
+     path: '/event/create-new-event',
      element: <CreateEvent/>,
    },
    {
-     path: '/selecttimes',
+     path: '/event/select-times',
      element: <TimeSelectorPage event = {ev}/>
    }
  

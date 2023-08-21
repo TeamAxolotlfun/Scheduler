@@ -13,7 +13,7 @@ const TimeSelectorPage = (props) => {
 
     const getEventTimes = async () => {
        try{
-        const response = axios.get(`http://localhost:3000/event_times/?event=${event_id}`);
+        const response = axios.get(`http://localhost:3000/gettingInvitationTimes/?event=${event_id}`);
         const times = response.data; 
         return times;
        }
@@ -22,29 +22,30 @@ const TimeSelectorPage = (props) => {
        }
     }
     const timeSelectors = [];
-    const times = [{start: new Date('August 20, 2023 06:30:00'), end: new Date('August 22, 2023 18:30:00')}, {start: new Date('August 23, 2023 06:30:00'), end: new Date('August 25, 2023 18:30:00')}]; //dummy code for testing front end
-    for(let time of times){
+    const times = getEventTimes();
+    // const times = [{start: new Date('August 20, 2023 06:30:00'), end: new Date('August 22, 2023 18:30:00')}, {start: new Date('August 23, 2023 06:30:00'), end: new Date('August 25, 2023 18:30:00')}]; //dummy code for testing front end
+    for (let time of times){
       timeSelectors.push(<TimeSelector av = {availableTimes} set = {setAvailableTimes} timeConstraints = {time}/>)
     }
 
     const handleClick = async () => {
-      // try{
-      //   const result = await axios.post(`http://localhost:3000/settimes-?event=${event_id}`, {
-      //     event_id: event_id,
-      //     times: availableTimes,
-      //   });
-      //   if(result){
-      //     navigate('/home')
-      //   }
-      // }
-      // catch(err){
-      //   console.log(err);
-      // }
-      console.log({
-            event_id: event_id,
-            times: availableTimes,
-      });
-      navigate('/home');
+      try{
+        const result = await axios.post(`http://localhost:3000/event/inviteeChooseEventTime`, {
+          event_id: event_id,
+          times: availableTimes,
+        });
+        if(result){
+          navigate('/')
+        }
+      }
+      catch(err){
+        console.log(err);
+      }
+      // console.log({
+      //       event_id: event_id,
+      //       times: availableTimes,
+      // });
+      // navigate('/home');
     }  
     return (
       <Container maxWidth="md" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
