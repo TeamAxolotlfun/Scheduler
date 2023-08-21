@@ -1,27 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {DateTimePicker, DesktopDateTimePicker} from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Container from '@mui/material/Container'
+import Button from '@mui/material/Button'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import de from 'date-fns/locale/de';
 
 const TimeSelector = (props) => {
-
-  console.log('your props are', props);
+  const [startTime, setStart] = useState();
+  const [endTime, setEnd] = useState();
+  const {av, set} = props;
   let start, end;
-  if (props && Object.entries(props).length){
-    console.log('found real props');
+  if (props && props.timeConstraints){ 
     start = props.timeConstraints.start;
     end = props.timeConstraints.end;
   }
-  console.log(start);
-  console.log(end);
+
+  const handleClick = (event) => {
+    const copy = [...av];
+    copy.push({start: startTime, end: endTime});
+    set(copy);
+  }
+
+
    return (
     <Container>
       <LocalizationProvider dateAdapter={AdapterDateFns} >
-        <DesktopDateTimePicker label = 'enter a start time' minDateTime = {start} maxDateTime = {end}/>
-        <DateTimePicker label = 'enter an end time' minDateTime = {start} maxDateTime = {end}/>
+        <DesktopDateTimePicker 
+        label = 'enter a start time' minDateTime = {start} maxDateTime = {end} onChange = {(newDate) => setStart(newDate)}
+        />
+        <DateTimePicker 
+          label = 'enter an end time' minDateTime = {start} maxDateTime = {end} onChange = {(newDate) => setEnd(newDate)} 
+        />
       </LocalizationProvider>
+      <Button onClick = {handleClick}>Set Availability</Button>
     </Container>
    );
 }
