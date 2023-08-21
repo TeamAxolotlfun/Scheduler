@@ -11,18 +11,30 @@ const eventController = require('../controllers/eventController');
 //     return sendStatus(200);
 // })
 router.get('/create-new-event', express.static(path.resolve(__dirname, '../dist')));
+router.get('/select-times', express.static(path.resolve(__dirname, '../dist')));
 
 router.post('/create-new-event', eventController.createEvent, (req, res) => {
   return res.sendStatus(200);
 })
 
 router.get('/getAllUsernames', eventController.getAllUsernames, (req, res) => {
-  return res.sendStatus(200).json(usernames);
+  return res.status(200).json(res.locals.usernames);
 } )
 
 router.get('/user-invited-events', eventController.getEventsForUser, (req, res) => {
-    const events = res.locals.events;
-    return res.json(events);
+    return res.status(200).json(res.locals.events);
   });
+
+router.get('/organizer-invited-events', eventController.getEventsForOrganizer, (req, res) => {
+    return res.status(200).json(res.locals.eventsFromOrganizer);
+  });
+
+router.get('/gettingInvitationTimes' , eventController.getTimesForEvent, (req, res)=>{
+  return res.status(200).json(res.locals.times);
+});
+
+router.post('/inviteeChooseEventTime', eventController.inviteeChooseEventTime, (req, res) => {
+  return res.sendStatus(200);
+})
 
 module.exports = router;
