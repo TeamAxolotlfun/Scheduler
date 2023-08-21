@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 const TimeSelectorPage = (props) => {
 
-  const event_id = props.event_id;
-
+  const event_id = props.event.id;
+  //console.log(props);
   const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
 
@@ -47,7 +47,7 @@ const TimeSelectorPage = (props) => {
       navigate('/home');
     }  
     return (
-      <Container maxWidth="sm" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
+      <Container maxWidth="md" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
         <Typography variant="h4" gutterBottom>
             Select Your Availability
         </Typography>

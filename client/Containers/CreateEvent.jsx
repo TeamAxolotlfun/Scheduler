@@ -101,7 +101,7 @@ export default function CreateEvent() {
     }
       
     return (
-        <Container maxWidth="sm" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
+        <Container maxWidth="md" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
             <Typography variant="h4" gutterBottom>
                 Create Event
             </Typography>
@@ -110,9 +110,9 @@ export default function CreateEvent() {
             <TextField fullWidth label="Event Summary" margin="normal" multiline rows={4} onChange={(e) => {setEventDetails(e.target.value)}}/>
 
             {selectors}
-            <IconButton onClick={handleAddDateTime}>
-                            <AddIcon />
-            </IconButton>
+            <Button onClick={handleAddDateTime}>
+                           Add another availability window
+            </Button>
 
             {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                 {selectedDates.map((date, idx) => (
