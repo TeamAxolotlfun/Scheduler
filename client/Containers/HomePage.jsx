@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function HomePage (props) {
+    console.log('props are: ', props);
     const {set} = props;
     const navigate = useNavigate();
     const [hasNewInvite, setHasNewInvite] = useState(false); // Mocking it for now

@@ -34,27 +34,26 @@ const TimeSelectorPage = (props) => {
   
     
     const handleTSClick = () => {
+      const sendData = () => {
+          axios.post(`http://localhost:3000/event/inviteeChooseEventTime`, {
+            event_id: event_id,
+            times: availableTimes,
+          }).then(()=> {
+            navigate('user/signup');
+          })
+        
+        .catch((err)=>{
+          console.log(err);
+        });
+        // console.log({
+        //       event_id: event_id,
+        //       times: availableTimes,
+        // });
+        // navigate('/home');
+      }  
       sendData();
     }
-    const sendData = async () => {
-      try{
-        const result = await axios.post(`http://localhost:3000/event/inviteeChooseEventTime`, {
-          event_id: event_id,
-          times: availableTimes,
-        });
-        if(result){
-          return navigate('/');
-        }
-      }
-      catch(err){
-        console.log(err);
-      }
-      // console.log({
-      //       event_id: event_id,
-      //       times: availableTimes,
-      // });
-      // navigate('/home');
-    }  
+    
     return (
       <Container maxWidth="md" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)' }}>
         <Typography variant="h4" gutterBottom>
@@ -62,7 +61,6 @@ const TimeSelectorPage = (props) => {
         </Typography>
         {timeSelectors}
         <Button onClick={handleTSClick}>Submit</Button>
-        <Button>extra</Button>
       </Container>
     )
 }

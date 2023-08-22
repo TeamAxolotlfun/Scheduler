@@ -1,4 +1,5 @@
 const path = require('path');
+//const webpack = require('webpack');
 
 module.exports = {
     entry: [
@@ -47,7 +48,11 @@ module.exports = {
           publicPath: '/',
         },
     
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+          "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        },
         /**
          * proxy is required in order to make api calls to
          * express server while using hot-reload webpack server
